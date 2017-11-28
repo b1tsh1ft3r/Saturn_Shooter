@@ -33,7 +33,7 @@ inline void draw_player_bullet_list(jo_node *node)
     // do collision checks...
 
     // kill object if off screen
-		if (node->data.coord.y < -JO_TV_HEIGHT_2 || node->data.coord.y > JO_TV_HEIGHT_2 ) { jo_list_remove(&player_bullet_list, node); }
+    if (node->data.coord.y < -JO_TV_HEIGHT_2 || node->data.coord.y > JO_TV_HEIGHT_2 ) { jo_list_remove(&player_bullet_list, node); }
     if (node->data.coord.x < -JO_TV_WIDTH_2  || node->data.coord.x > JO_TV_WIDTH_2  ) { jo_list_remove(&player_bullet_list, node); }
 }
 
@@ -46,7 +46,7 @@ void my_draw()
 	// clear text from screen
 	jo_clear_screen();
 
-  // draw map
+        // draw map
 	jo_map_draw(WORLD_MAP_ID, MAP_X, MAP_Y);
 
 	// NOW SET PLAYER ANIMATION BASED ON WHAT WEAPON VARIABLE SAYS...
@@ -64,25 +64,25 @@ void my_draw()
 
 	// draw player
 	jo_sprite_draw3D_and_rotate(jo_get_anim_sprite(player.animation), 0, 0, player.depth, player.angle);
-  // start animations for player based on value set
+        // start animations for player based on value set
 	if (player.moving == true) { jo_start_sprite_anim_loop(player.animation); } else { jo_stop_sprite_anim(player.animation); jo_set_sprite_anim_frame(player.animation,2); }
 
   // -------------------------------
   // draw enemies, sprites, ect here
-	// -------------------------------
+  // -------------------------------
 
-	// Draw Player Bullets/Projectiles
-	jo_list_foreach(&player_bullet_list, draw_player_bullet_list); // DRAW BULLETS THAT WERE ADDED TO THE LIST
+  // Draw Player Bullets/Projectiles
+  jo_list_foreach(&player_bullet_list, draw_player_bullet_list); // DRAW BULLETS THAT WERE ADDED TO THE LIST
 
 
   // Draw GUI
-	jo_sprite_enable_half_transparency();				// SET HALF TRANSPARENCY
-	jo_sprite_draw3D2(obj_gui, 0, 10, 150);			// DRAW GUI PANEL
-	jo_sprite_disable_half_transparency();      // UN-SET HALF TRANSPARENCY
-  jo_sprite_draw3D2(obj_target_icon, 6, 22-6, 100);	  // DRAW TARGET GUI ICON
+	jo_sprite_enable_half_transparency();		          // SET HALF TRANSPARENCY
+	jo_sprite_draw3D2(obj_gui, 0, 10, 150);			  // DRAW GUI PANEL
+	jo_sprite_disable_half_transparency();     		  // UN-SET HALF TRANSPARENCY
+        jo_sprite_draw3D2(obj_target_icon, 6, 22-6, 100);	  // DRAW TARGET GUI ICON
 
 	// DRAW ICONS (BULLETS/SHELLS/GAS)
-  if (player.weapon == 1 || player.weapon == 7) { jo_sprite_draw3D2(obj_grenade_icon,5,48-6,100); }
+        if (player.weapon == 1 || player.weapon == 7) { jo_sprite_draw3D2(obj_grenade_icon,5,48-6,100); }
 	if (player.weapon == 2 || player.weapon == 4 || player.weapon == 5) { jo_sprite_draw3D2(obj_ammo_icon,6,47-6,100); }
 	if (player.weapon == 3) { jo_sprite_draw3D2(obj_shells_icon,7,47-6,100); }
 	if (player.weapon == 6) { jo_sprite_draw3D2(obj_gas_icon,6,47-6,100); }
@@ -188,11 +188,11 @@ void my_gamepad(void)
   if (jo_is_pad1_key_pressed(JO_KEY_R)) { player.moving = true; MAP_X +=player.speed; } }
   // STRAFING UP & DOWN (while facing left)
   if (player.angle == 180) {
-	if (jo_is_pad1_key_pressed(JO_KEY_L)) { player.moving = true; MAP_Y +=player.speed; }
-	if (jo_is_pad1_key_pressed(JO_KEY_R)) { player.moving = true; MAP_Y -=player.speed; }
+  if (jo_is_pad1_key_pressed(JO_KEY_L)) { player.moving = true; MAP_Y +=player.speed; }
+  if (jo_is_pad1_key_pressed(JO_KEY_R)) { player.moving = true; MAP_Y -=player.speed; }
   } else if (player.angle == 0) {
-	if (jo_is_pad1_key_pressed(JO_KEY_L)) { player.moving = true; MAP_Y -=player.speed; }
-	if (jo_is_pad1_key_pressed(JO_KEY_R)) { player.moving = true; MAP_Y +=player.speed; } }
+  if (jo_is_pad1_key_pressed(JO_KEY_L)) { player.moving = true; MAP_Y -=player.speed; } 
+  if (jo_is_pad1_key_pressed(JO_KEY_R)) { player.moving = true; MAP_Y +=player.speed; } }
 	//-------------------------------------------------------------------------------------------
 
 	//-------------------------------------------------------------------------------------------
