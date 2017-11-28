@@ -31,9 +31,6 @@ inline void draw_player_bullet_list(jo_node *node)
     }
 
     // do collision checks...
-    //if (jo_list_any(&enemies_list, check_if_laser_hit_enemy, node))
-        //jo_list_remove(&laser_blast_list, node);
-    //else
 
     // kill object if off screen
 		if (node->data.coord.y < -JO_TV_HEIGHT_2 || node->data.coord.y > JO_TV_HEIGHT_2 ) { jo_list_remove(&player_bullet_list, node); }
