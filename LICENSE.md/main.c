@@ -118,14 +118,12 @@ void my_draw()
 	jo_sprite_draw3D2(obj_selector,0,68+(20*player.weapon),100);
 
 	// DRAW RIOTSHIELD TEXT VALUE IF ACTIVE
-  if (player.riotactive == true) { jo_printf_with_color(14, 8, JO_COLOR_INDEX_Yellow,"RiotShield: %d%%" ,player.riotshield_value); }
+ 	if (player.riotactive == true) { jo_printf_with_color(14, 8, JO_COLOR_INDEX_Yellow,"RiotShield: %d%%" ,player.riotshield_value); }
 
 	jo_printf_with_color(13, 0, JO_COLOR_INDEX_Red,"Sprite Memory Usage: %d%%" ,jo_sprite_usage_percent());
-  jo_printf_with_color(13, 1, JO_COLOR_INDEX_Red,"Memory Usage: %d%%" ,jo_memory_usage_percent());
-  jo_printf_with_color(13, 2, JO_COLOR_INDEX_Red,"FPS:%d/60" , (60/JO_FRAMERATE));
-
+  	jo_printf_with_color(13, 1, JO_COLOR_INDEX_Red,"Memory Usage: %d%%" ,jo_memory_usage_percent());
+  	jo_printf_with_color(13, 2, JO_COLOR_INDEX_Red,"FPS:%d/60" , (60/JO_FRAMERATE));
 	jo_printf_with_color(13, 4, JO_COLOR_INDEX_Red,"player.ok2shoot: %d", player.ok2shoot);
-
 }
 
 
@@ -185,10 +183,10 @@ void my_gamepad(void)
   if (jo_is_pad1_key_pressed(JO_KEY_LEFT)  && jo_is_pad1_key_pressed(JO_KEY_UP))    { player.angle = 225+1; }
 	//-------------------------------------------------------------------------------------------
   // STRAFING LEFT & RIGHT (while facing up or down only)
-	if (player.angle == 270 || player.angle == 90) {
-  if (jo_is_pad1_key_pressed(JO_KEY_L)) { player.moving = true; MAP_X -=player.speed; }
-	if (jo_is_pad1_key_pressed(JO_KEY_R)) { player.moving = true; MAP_X +=player.speed; } }
-	// STRAFING UP & DOWN (while facing left)
+  if (player.angle == 270 || player.angle == 90) {
+  if (jo_is_pad1_key_pressed(JO_KEY_L)) { player.moving = true; MAP_X -=player.speed; }  
+  if (jo_is_pad1_key_pressed(JO_KEY_R)) { player.moving = true; MAP_X +=player.speed; } }
+  // STRAFING UP & DOWN (while facing left)
   if (player.angle == 180) {
 	if (jo_is_pad1_key_pressed(JO_KEY_L)) { player.moving = true; MAP_Y +=player.speed; }
 	if (jo_is_pad1_key_pressed(JO_KEY_R)) { player.moving = true; MAP_Y -=player.speed; }
@@ -207,53 +205,52 @@ if (player.shotcount >= player.alarm0) { player.shotcount = 0; player.alarm0 = 0
 	if (jo_is_pad1_key_pressed(JO_KEY_B) && player.ok2shoot == true)
 	{
 
-					if(player.weapon == 2) // pistol
-					{
-  				  	player.ok2shoot = false;
-  						player.alarm0 = 16;
-  						jo_list_data    bullet;
-              set_bullet_offset();
-  						bullet.coord.x = player.bullet_offset_x;
-  						bullet.coord.y = player.bullet_offset_y;
-              bullet.coord.angle = player.angle;
-  						jo_list_add(&player_bullet_list, bullet);
-					}
+		if(player.weapon == 2) // pistol
+		{
+  			player.ok2shoot = false;
+  			player.alarm0 = 16;
+  			jo_list_data    bullet;
+              		set_bullet_offset();
+  			bullet.coord.x = player.bullet_offset_x;
+  			bullet.coord.y = player.bullet_offset_y;
+              		bullet.coord.angle = player.angle;
+  			jo_list_add(&player_bullet_list, bullet);
+		}
 
-          if(player.weapon == 4) // UZI
-					{
-				  		player.ok2shoot = false;
-							player.alarm0 = 4;
-							jo_list_data    bullet;
-              set_bullet_offset();
-              bullet.coord.x = player.bullet_offset_x;
-  						bullet.coord.y = player.bullet_offset_y;
-              bullet.coord.angle = player.angle;
-							jo_list_add(&player_bullet_list, bullet);
-					}
-
+          	if(player.weapon == 4) // UZI
+		{
+			player.ok2shoot = false;
+			player.alarm0 = 4;
+			jo_list_data    bullet;
+              		set_bullet_offset();
+              		bullet.coord.x = player.bullet_offset_x;
+  			bullet.coord.y = player.bullet_offset_y;
+              		bullet.coord.angle = player.angle;
+			jo_list_add(&player_bullet_list, bullet);
+		}
 
   }
 	//-------------------------------------------------------------------------------------------
 
 	// WEAPON SELECT
-  if (jo_is_pad1_key_down(JO_KEY_Z))
+  	if (jo_is_pad1_key_down(JO_KEY_Z))
 	{
 		if(player.riotactive == true) { player.riotactive = false; }
-    player.shotcount = 0;
+    		player.shotcount = 0;
 		if (player.weapon == 1) { player.weapon = 7;} else { player.weapon -=1; }
-  }
+  	}
 
 	if (jo_is_pad1_key_down(JO_KEY_C))
 	{
 	  if(player.riotactive == true) { player.riotactive = false; }
-		player.shotcount = 0;
-		if (player.weapon == 7) { player.weapon = 1;} else { player.weapon +=1; }
-  }
+	  player.shotcount = 0;
+	  if (player.weapon == 7) { player.weapon = 1;} else { player.weapon +=1; }
+  	}
 
 	//-------------------------------------------------------------------------------------------
 	// RIOT SHIELD ON/OFF (only usable with pistol or uzi)
 	if (jo_is_pad1_key_down(JO_KEY_Y) && player.have_riotshield == true && player.riotshield_value > 0) {
-  if (player.riotactive == false) { player.riotactive = true; } else { player.riotactive = false; }
+  	if (player.riotactive == false) { player.riotactive = true; } else { player.riotactive = false; }
 	if (player.weapon <=2) { player.weapon = 2; }
 	if (player.weapon > 2 && player.have_weapon4 == true && player.weapon4_ammo > 0) { player.weapon = 4; } else { player.weapon = 2; } }
 	if (player.riotactive == true && player.riotshield_value != 0) { player.riotcount +=1; if (player.riotcount == 60) { player.riotshield_value -=1; player.riotcount = 0; } }
@@ -292,35 +289,35 @@ void Setup_Game()
 	// lOAD PLAYER ANIMATION GRAPHICS
 	int ANIM_ID; // TEMP VARIABLE
 	ANIM_ID    = jo_sprite_add_image_pack("SPR", "PWLK.ANM", JO_COLOR_Black); // PLAYER WALKING GRAPHICS
-  PWALK_ANIM = jo_create_sprite_anim(ANIM_ID, 6, 4);
+  	PWALK_ANIM = jo_create_sprite_anim(ANIM_ID, 6, 4);
 	ANIM_ID    = jo_sprite_add_image_pack("SPR", "PSTL.ANM", JO_COLOR_Black); // PLAYER WALKING GRAPHICS
-  PGUN2_ANIM = jo_create_sprite_anim(ANIM_ID, 6, 4);
+  	PGUN2_ANIM = jo_create_sprite_anim(ANIM_ID, 6, 4);
 	ANIM_ID    = jo_sprite_add_image_pack("SPR", "SHTG.ANM", JO_COLOR_Black); // PLAYER WALKING GRAPHICS
-  PGUN3_ANIM = jo_create_sprite_anim(ANIM_ID, 5, 4);
+  	PGUN3_ANIM = jo_create_sprite_anim(ANIM_ID, 5, 4);
 	ANIM_ID    = jo_sprite_add_image_pack("SPR", "UZI.ANM", JO_COLOR_Black); // PLAYER WALKING GRAPHICS
-  PGUN4_ANIM = jo_create_sprite_anim(ANIM_ID, 5, 4);
+  	PGUN4_ANIM = jo_create_sprite_anim(ANIM_ID, 5, 4);
 	ANIM_ID    = jo_sprite_add_image_pack("SPR", "M4A1.ANM", JO_COLOR_Black); // PLAYER WALKING GRAPHICS
-  PGUN5_ANIM = jo_create_sprite_anim(ANIM_ID, 5, 4);
+ 	PGUN5_ANIM = jo_create_sprite_anim(ANIM_ID, 5, 4);
 	ANIM_ID    = jo_sprite_add_image_pack("SPR", "FLME.ANM", JO_COLOR_Black); // PLAYER WALKING GRAPHICS
 	PGUN6_ANIM = jo_create_sprite_anim(ANIM_ID, 5, 4);
 	ANIM_ID    = jo_sprite_add_image_pack("SPR", "RPG.ANM", JO_COLOR_Black); // PLAYER WALKING GRAPHICS
-  PGUN7_ANIM = jo_create_sprite_anim(ANIM_ID, 5, 4);
+  	PGUN7_ANIM = jo_create_sprite_anim(ANIM_ID, 5, 4);
 	ANIM_ID    = jo_sprite_add_image_pack("SPR", "RIOT.ANM", JO_COLOR_Black); // PLAYER WALKING GRAPHICS
-  PRIOT_ANIM = jo_create_sprite_anim(ANIM_ID, 5, 4);
+  	PRIOT_ANIM = jo_create_sprite_anim(ANIM_ID, 5, 4);
 
 	// LOAD ITEMS and Projectile art
 	obj_bullet = jo_sprite_add_tga("SPR", "BULLET.TGA", JO_COLOR_Black); // LOAD BULLET GRAPHICS
 
-  // initialize lists
+  	// initialize lists
 	jo_list_init(&player_bullet_list);
 
-  // SET PLAYER VALUES
+  	// SET PLAYER VALUES
 	player.health = 100;
 	player.weapon = 2;
 	player.speed = 2;					  // SPEED`
 	player.depth = 400;					// SET VISUAL DEPTH ON SCREEN FOR PLAYER (450 IS MAP LEVEL DEPTH)
-  player.angle = 0;						// PLAYER ANGLE`
-  player.moving = false;      // MOVING FLAG
+  	player.angle = 0;						// PLAYER ANGLE`
+  	player.moving = false;      // MOVING FLAG
 	player.have_weapon1 = true;
 	player.have_weapon2 = true;
 	player.have_weapon3 = false;
@@ -335,11 +332,11 @@ void Setup_Game()
 	player.weapon5_ammo = 247;
 	player.weapon6_ammo = 75;
 	player.weapon7_ammo = 3;
-  player.bullet_speed = 12; // 12 = default
-  player.have_riotshield = true;
-  player.riotshield_value = 100;
+  	player.bullet_speed = 12; // 12 = default
+  	player.have_riotshield = true;
+  	player.riotshield_value = 100;
 	player.ok2shoot = true;
-  player.animation = PWALK_ANIM;
+  	player.animation = PWALK_ANIM;
 }
 
 /* ************************************* */
@@ -347,9 +344,9 @@ void jo_main(void)
 {
 	jo_core_init(JO_COLOR_Black);
 	jo_printf_with_color(15, 14, JO_COLOR_INDEX_White, "Loading...");
-  Setup_Game();
+ 	Setup_Game();
 	jo_core_add_callback(my_gamepad);
-  jo_core_add_callback(my_draw);
+  	jo_core_add_callback(my_draw);
 	jo_core_run();
 }
 /* ************************************* */
